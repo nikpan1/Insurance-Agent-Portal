@@ -4,7 +4,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRONTEND_DIR="$ROOT_DIR/frontend"
-BACKEND_DIR="$ROOT_DIR/backend/polictracker-backend"
+BACKEND_DIR="$ROOT_DIR/backend"
 
 echo "Starting infrastructure (PostgreSQL, MongoDB)..."
 if command -v docker-compose >/dev/null 2>&1; then
