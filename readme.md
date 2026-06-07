@@ -1,0 +1,1 @@
+# Conceptual POC project showcasing some software engineering thingies
