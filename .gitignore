@@ -1,3 +1,4 @@
 build/
+backend/polictracker-backend/.idea/
 
 .env
