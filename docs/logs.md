@@ -16,3 +16,7 @@
 - added connections db + backend
 - implemented example rest endpoint
 - added AI driven tests
+
+# [LOG 5] Initialized empty frontend project
+- ng new frontend --style=scss --routing=true
+- installed bootstap

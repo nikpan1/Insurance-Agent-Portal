@@ -1,5 +1,6 @@
 build/
-backend/polictracker-backend/.idea/
 .ai/
+.idea/
+.vscode/
 
 .env
