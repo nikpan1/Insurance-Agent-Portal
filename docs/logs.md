@@ -9,3 +9,5 @@
 - MongoDB for relational examples
 
 # [LOG 3] Initialized backend
+- created initial repo
+- added dependencies like springboot
