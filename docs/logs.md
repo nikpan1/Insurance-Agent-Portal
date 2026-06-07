@@ -20,3 +20,6 @@
 # [LOG 5] Initialized empty frontend project
 - ng new frontend --style=scss --routing=true
 - installed bootstap
+
+# [LOG 6] Added frontend
+- added a service for it to be in order to communicate with backend via REST

@@ -1,0 +1,84 @@
+<section class="client-registration container py-4 py-md-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <h1 class="h3 mb-1">Rejestracja klienta</h1>
+          <p class="text-body-secondary mb-4">Wypełnij formularz, aby utworzyć nowego klienta.</p>
+
+          <form [formGroup]="registrationForm" class="row g-3" novalidate>
+            <div class="col-12 col-md-6">
+              <label for="firstName" class="form-label">Imie</label>
+              <input
+                id="firstName"
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                [class.is-invalid]="isInvalid('firstName')"
+              />
+              @if (hasError('firstName', 'required')) {
+                <div class="invalid-feedback d-block">Imie jest wymagane.</div>
+              }
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label for="lastName" class="form-label">Nazwisko</label>
+              <input
+                id="lastName"
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                [class.is-invalid]="isInvalid('lastName')"
+              />
+              @if (hasError('lastName', 'required')) {
+                <div class="invalid-feedback d-block">Nazwisko jest wymagane.</div>
+              }
+            </div>
+
+            <div class="col-12">
+              <label for="email" class="form-label">Adres e-mail</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                formControlName="email"
+                [class.is-invalid]="isInvalid('email')"
+              />
+              @if (hasError('email', 'required')) {
+                <div class="invalid-feedback d-block">Adres e-mail jest wymagany.</div>
+              }
+              @if (hasError('email', 'email')) {
+                <div class="invalid-feedback d-block">Podaj poprawny adres e-mail.</div>
+              }
+            </div>
+
+            <div class="col-12">
+              <label for="pesel" class="form-label">PESEL</label>
+              <input
+                id="pesel"
+                type="text"
+                class="form-control"
+                formControlName="pesel"
+                [class.is-invalid]="isInvalid('pesel')"
+                inputmode="numeric"
+                maxlength="11"
+              />
+              @if (hasError('pesel', 'required')) {
+                <div class="invalid-feedback d-block">PESEL jest wymagany.</div>
+              }
+              @if (hasError('pesel', 'pattern')) {
+                <div class="invalid-feedback d-block">PESEL musi zawierac dokladnie 11 cyfr.</div>
+              }
+            </div>
+
+            <div class="col-12 d-flex justify-content-end pt-2">
+              <button type="submit" class="btn btn-primary" [disabled]="registrationForm.invalid">
+                Zarejestruj klienta
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
