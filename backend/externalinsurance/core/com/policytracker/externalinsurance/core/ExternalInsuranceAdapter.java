@@ -10,6 +10,7 @@ import com.policytracker.externalinsurance.api.UpdateInsuranceStatusRequest;
 import com.policytracker.events.api.InsuranceStatusUpdatedEvent;
 import com.policytracker.events.api.InsuranceUserDataRequestedEvent;
 import com.policytracker.requestcontext.CurrentUserContext;
+import com.policytracker.systemproperties.api.SystemPropertiesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,13 @@ import org.springframework.web.client.RestClientException;
 @RequiredArgsConstructor
 public class ExternalInsuranceAdapter implements ExternalInsuranceService, DomainCore {
 
+    private static final String EVENT_PUBLISHING_PROPERTY_KEY = "externalinsurance.events.enabled";
+
     private final GeneratedExternalInsuranceClient generatedExternalInsuranceClient;
     private final ExternalInsuranceMapper externalInsuranceMapper;
     private final CurrentUserContext currentUserContext;
     private final ApplicationEventPublisher eventPublisher;
+    private final SystemPropertiesService systemPropertiesService;
 
     @Override
     public InsuranceUserData getInsuranceUserData(final InsuranceUserDataRequest request) {
@@ -36,11 +40,13 @@ public class ExternalInsuranceAdapter implements ExternalInsuranceService, Domai
             final com.policytracker.externalinsurance.generated.model.InsuranceUserDataResponse generatedResponse =
                     generatedExternalInsuranceClient.getInsuranceUserData(generatedRequest);
             final InsuranceUserData insuranceUserData = externalInsuranceMapper.toApiInsuranceUserData(generatedResponse);
-            eventPublisher.publishEvent(InsuranceUserDataRequestedEvent.builder()
-                    .userId(userId)
-                    .externalUserId(request.getExternalUserId())
-                    .correlationId(request.getCorrelationId())
-                    .build());
+            if (isEventPublishingEnabled(userId)) {
+                eventPublisher.publishEvent(InsuranceUserDataRequestedEvent.builder()
+                        .userId(userId)
+                        .externalUserId(request.getExternalUserId())
+                        .correlationId(request.getCorrelationId())
+                        .build());
+            }
             return insuranceUserData;
         } catch (RestClientException ex) {
             throw new ExternalInsuranceCommunicationException("Failed to fetch insurance user data from external provider", ex);
@@ -60,15 +66,25 @@ public class ExternalInsuranceAdapter implements ExternalInsuranceService, Domai
                     generatedExternalInsuranceClient.updateInsuranceStatus(generatedRequest);
             final InsuranceStatusUpdateResult insuranceStatusUpdateResult =
                     externalInsuranceMapper.toApiInsuranceStatusUpdateResult(generatedResponse);
-            eventPublisher.publishEvent(InsuranceStatusUpdatedEvent.builder()
-                    .userId(userId)
-                    .policyId(insuranceStatusUpdateResult.getPolicyId())
-                    .status(insuranceStatusUpdateResult.getStatus().name())
-                    .updatedAt(insuranceStatusUpdateResult.getUpdatedAt())
-                    .build());
+            if (isEventPublishingEnabled(userId)) {
+                eventPublisher.publishEvent(InsuranceStatusUpdatedEvent.builder()
+                        .userId(userId)
+                        .policyId(insuranceStatusUpdateResult.getPolicyId())
+                        .status(insuranceStatusUpdateResult.getStatus().name())
+                        .updatedAt(insuranceStatusUpdateResult.getUpdatedAt())
+                        .build());
+            }
             return insuranceStatusUpdateResult;
         } catch (RestClientException ex) {
             throw new ExternalInsuranceCommunicationException("Failed to update insurance status in external provider", ex);
         }
+    }
+
+    private boolean isEventPublishingEnabled(Long userId) {
+        if (userId == null) {
+            return true;
+        }
+
+        return systemPropertiesService.getBooleanProperty(userId, EVENT_PUBLISHING_PROPERTY_KEY, true);
     }
 }
