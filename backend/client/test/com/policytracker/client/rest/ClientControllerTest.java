@@ -1,8 +1,10 @@
-package com.policytracker.client.api;
+package com.policytracker.client.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.policytracker.client.Client;
 import com.policytracker.client.ClientService;
+import com.policytracker.client.dto.ClientRegistrationRequestDTO;
+import com.policytracker.requestcontext.CurrentUserContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,6 +31,9 @@ class ClientControllerTest {
 
     @MockBean
     private ClientService clientService;
+
+    @MockBean
+    private CurrentUserContext currentUserContext;
 
     @Test
     void registerClientReturnsCreatedForValidPayload() throws Exception {

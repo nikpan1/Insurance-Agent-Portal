@@ -1,4 +1,4 @@
-package com.policytracker.client.api;
+package com.policytracker.client.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

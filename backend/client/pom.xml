@@ -32,6 +32,26 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.policytracker</groupId>
+            <artifactId>externalinsurance</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.policytracker</groupId>
+            <artifactId>systemproperties</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.policytracker</groupId>
+            <artifactId>audit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.policytracker</groupId>
+            <artifactId>referencedataimport</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>

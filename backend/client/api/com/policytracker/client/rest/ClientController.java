@@ -1,7 +1,8 @@
-package com.policytracker.client.api;
+package com.policytracker.client.rest;
 
 import com.policytracker.client.Client;
 import com.policytracker.client.ClientService;
+import com.policytracker.client.dto.ClientRegistrationRequestDTO;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;

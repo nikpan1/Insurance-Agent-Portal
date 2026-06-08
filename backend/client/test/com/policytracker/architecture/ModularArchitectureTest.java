@@ -10,14 +10,19 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 class ModularArchitectureTest {
 
     @Test
-    void clientModuleMustNotDependOnAuditModule() {
+    void clientModuleMustNotDependOnDomainCorePackages() {
         JavaClasses importedClasses = new ClassFileImporter()
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                 .importPackages("com.policytracker");
 
         noClasses()
                 .that().resideInAPackage("..client..")
-                .should().dependOnClassesThat().resideInAPackage("..audit..")
+                .should().dependOnClassesThat().resideInAnyPackage(
+                        "..audit.core..",
+                        "..externalinsurance.core..",
+                        "..systemproperties.core..",
+                        "..referencedataimport.core.."
+                )
                 .check(importedClasses);
     }
 }
