@@ -1,6 +1,6 @@
 package com.policytracker.client;
 
-import com.policytracker.common.events.ClientRegisteredEvent;
+import com.policytracker.common.events.dto.ClientRegisteredEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

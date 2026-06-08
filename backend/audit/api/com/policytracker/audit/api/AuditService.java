@@ -1,5 +1,7 @@
 package com.policytracker.audit.api;
 
+import com.policytracker.audit.api.dto.AuditEventDto;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
 import com.policytracker.common.architecture.DomainApi;
 import java.util.List;
 

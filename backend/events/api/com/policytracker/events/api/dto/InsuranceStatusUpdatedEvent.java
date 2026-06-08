@@ -1,4 +1,4 @@
-package com.policytracker.events.api;
+package com.policytracker.events.api.dto;
 
 import java.time.OffsetDateTime;
 import lombok.Builder;

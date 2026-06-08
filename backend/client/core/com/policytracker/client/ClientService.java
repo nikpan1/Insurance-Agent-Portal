@@ -1,6 +1,6 @@
 package com.policytracker.client;
 
-import com.policytracker.common.events.ClientRegisteredEvent;
+import com.policytracker.common.events.dto.ClientRegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

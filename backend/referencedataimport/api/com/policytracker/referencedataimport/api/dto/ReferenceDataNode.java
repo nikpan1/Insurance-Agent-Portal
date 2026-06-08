@@ -1,4 +1,4 @@
-package com.policytracker.referencedataimport.api;
+package com.policytracker.referencedataimport.api.dto;
 
 import java.util.List;
 

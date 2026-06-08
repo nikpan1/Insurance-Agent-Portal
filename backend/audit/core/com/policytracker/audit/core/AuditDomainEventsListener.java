@@ -1,11 +1,11 @@
 package com.policytracker.audit.core;
 
 import com.policytracker.audit.api.AuditService;
-import com.policytracker.audit.api.CreateAuditEventRequest;
-import com.policytracker.common.events.ClientRegisteredEvent;
-import com.policytracker.events.api.InsuranceStatusUpdatedEvent;
-import com.policytracker.events.api.InsuranceUserDataRequestedEvent;
-import com.policytracker.events.api.ReferenceDataImportedEvent;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
+import com.policytracker.common.events.dto.ClientRegisteredEvent;
+import com.policytracker.events.api.dto.InsuranceStatusUpdatedEvent;
+import com.policytracker.events.api.dto.InsuranceUserDataRequestedEvent;
+import com.policytracker.events.api.dto.ReferenceDataImportedEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

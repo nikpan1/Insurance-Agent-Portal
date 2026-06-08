@@ -1,7 +1,8 @@
 package com.policytracker.audit.core;
 
-import com.policytracker.audit.api.CreateAuditEventRequest;
-import com.policytracker.events.api.AuditEventCreatedEvent;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
+import java.util.List;
+import com.policytracker.events.api.dto.AuditEventCreatedEvent;
 import java.time.Instant;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -63,5 +64,29 @@ class AuditServiceImplTest {
         assertThat(eventCaptor.getValue().userId()).isEqualTo(77L);
         assertThat(eventCaptor.getValue().eventType()).isEqualTo("TEST_EVENT");
         assertThat(eventCaptor.getValue().timestamp()).isNotNull();
+    }
+
+    @Test
+    void getAuditEventsByUserIdReturnsMappedEvents() {
+        AuditEventMapper mapper = Mappers.getMapper(AuditEventMapper.class);
+        auditService = new AuditServiceImpl(auditEventRepository, mapper, eventPublisher);
+
+        AuditEventDocument first = new AuditEventDocument();
+        first.setId("evt-1");
+        first.setUserId(77L);
+        first.setEventType("FIRST");
+        first.setTimestamp(Instant.parse("2026-06-09T00:00:00Z"));
+
+        AuditEventDocument second = new AuditEventDocument();
+        second.setId("evt-2");
+        second.setUserId(77L);
+        second.setEventType("SECOND");
+        second.setTimestamp(Instant.parse("2026-06-09T00:01:00Z"));
+
+        when(auditEventRepository.findByUserIdOrderByTimestampDesc(77L)).thenReturn(List.of(first, second));
+
+        assertThat(auditService.getAuditEventsByUserId(77L))
+                .extracting("id")
+                .containsExactly("evt-1", "evt-2");
     }
 }

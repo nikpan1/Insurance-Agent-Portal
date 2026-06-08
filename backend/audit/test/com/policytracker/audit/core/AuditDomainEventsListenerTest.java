@@ -1,8 +1,8 @@
 package com.policytracker.audit.core;
 
 import com.policytracker.audit.api.AuditService;
-import com.policytracker.audit.api.CreateAuditEventRequest;
-import com.policytracker.events.api.InsuranceStatusUpdatedEvent;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
+import com.policytracker.events.api.dto.InsuranceStatusUpdatedEvent;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

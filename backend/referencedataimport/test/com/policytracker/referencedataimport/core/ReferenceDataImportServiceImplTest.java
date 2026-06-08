@@ -1,6 +1,6 @@
 package com.policytracker.referencedataimport.core;
 
-import com.policytracker.referencedataimport.api.ReferenceDataImportResult;
+import com.policytracker.referencedataimport.api.dto.ReferenceDataImportResult;
 import com.policytracker.requestcontext.CurrentUserContext;
 import com.policytracker.requestcontext.UserId;
 import java.nio.file.Path;
@@ -47,5 +47,20 @@ class ReferenceDataImportServiceImplTest {
         assertThat(result.roots()).hasSize(1);
         assertThat(result.roots().get(0).children()).hasSize(1);
         verify(eventPublisher).publishEvent(any(Object.class));
+    }
+
+    @Test
+    void getCurrentTreeRootsReturnsLastImportedTree() {
+        when(csvReferenceDataReader.readAllLines(Path.of("data.csv"))).thenReturn(List.of(
+                "id,parentId,name",
+                "ROOT,,Root",
+                "CHILD,ROOT,Child"
+        ));
+        when(currentUserContext.getUserId()).thenReturn(new UserId(9L));
+
+        service.importFromCsv("data.csv");
+
+        assertThat(service.getCurrentTreeRoots()).hasSize(1);
+        assertThat(service.getCurrentTreeRoots().get(0).id()).isEqualTo("ROOT");
     }
 }

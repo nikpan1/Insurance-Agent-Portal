@@ -1,6 +1,6 @@
 package com.policytracker.systemproperties.core;
 
-import com.policytracker.systemproperties.api.SystemPropertyDto;
+import com.policytracker.systemproperties.api.dto.SystemPropertyDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

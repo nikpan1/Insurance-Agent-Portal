@@ -2,8 +2,8 @@ package com.policytracker.systemproperties.core;
 
 import com.policytracker.common.architecture.DomainCore;
 import com.policytracker.systemproperties.api.SystemPropertiesService;
-import com.policytracker.systemproperties.api.SystemPropertyDto;
 import com.policytracker.systemproperties.api.SystemPropertyValueFormatException;
+import com.policytracker.systemproperties.api.dto.SystemPropertyDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

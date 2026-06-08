@@ -1,6 +1,6 @@
 package com.policytracker.client.dto;
 
-import com.policytracker.externalinsurance.api.InsuranceStatus;
+import com.policytracker.externalinsurance.api.dto.InsuranceStatus;
 import java.time.OffsetDateTime;
 
 public record InsuranceStatusUpdateResultDto(

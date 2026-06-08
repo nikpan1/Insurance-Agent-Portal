@@ -1,4 +1,4 @@
-package com.policytracker.externalinsurance.api;
+package com.policytracker.externalinsurance.api.dto;
 
 public enum InsuranceStatus {
     ACTIVE,

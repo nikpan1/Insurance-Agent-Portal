@@ -3,7 +3,7 @@ package com.policytracker.client.rest;
 import com.policytracker.client.dto.SystemPropertyResponseDto;
 import com.policytracker.client.dto.SystemPropertyUpsertRequestDto;
 import com.policytracker.systemproperties.api.SystemPropertiesService;
-import com.policytracker.systemproperties.api.SystemPropertyDto;
+import com.policytracker.systemproperties.api.dto.SystemPropertyDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

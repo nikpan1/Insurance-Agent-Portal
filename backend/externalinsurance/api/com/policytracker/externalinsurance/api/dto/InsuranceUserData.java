@@ -1,4 +1,4 @@
-package com.policytracker.externalinsurance.api;
+package com.policytracker.externalinsurance.api.dto;
 
 import java.util.List;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.policytracker.events.api;
+package com.policytracker.events.api.dto;
 
 import java.time.Instant;
 import lombok.Builder;

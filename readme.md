@@ -26,3 +26,17 @@ flowchart LR
     API -->|JPA / SQL| PG
     API -->|Mongo driver| MG
 ```
+
+## Backend tree
+
+```text
+backend/
+├─ client/             REST API call handling
+├─ audit/              MongoDB-backed audit event storage
+├─ externalinsurance/  OpenAPI-based external service communication
+├─ events/             domain event contracts/publishing
+├─ requestcontext/     request-scoped user context + exception handling
+├─ systemproperties/   JPA/PostgreSQL customer-scoped properties
+├─ referencedataimport/ CSV import + tree building
+└─ common/             shared contracts/markers
+```

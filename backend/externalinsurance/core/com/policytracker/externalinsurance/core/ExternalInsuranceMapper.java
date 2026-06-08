@@ -1,11 +1,11 @@
 package com.policytracker.externalinsurance.core;
 
-import com.policytracker.externalinsurance.api.InsurancePolicy;
-import com.policytracker.externalinsurance.api.InsuranceStatus;
-import com.policytracker.externalinsurance.api.InsuranceStatusUpdateResult;
-import com.policytracker.externalinsurance.api.InsuranceUserData;
-import com.policytracker.externalinsurance.api.InsuranceUserDataRequest;
-import com.policytracker.externalinsurance.api.UpdateInsuranceStatusRequest;
+import com.policytracker.externalinsurance.api.dto.InsurancePolicy;
+import com.policytracker.externalinsurance.api.dto.InsuranceStatus;
+import com.policytracker.externalinsurance.api.dto.InsuranceStatusUpdateResult;
+import com.policytracker.externalinsurance.api.dto.InsuranceUserData;
+import com.policytracker.externalinsurance.api.dto.InsuranceUserDataRequest;
+import com.policytracker.externalinsurance.api.dto.UpdateInsuranceStatusRequest;
 import com.policytracker.externalinsurance.generated.model.InsuranceUserDataResponseActivePoliciesInner;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

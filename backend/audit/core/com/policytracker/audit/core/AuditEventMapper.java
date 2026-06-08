@@ -1,7 +1,7 @@
 package com.policytracker.audit.core;
 
-import com.policytracker.audit.api.AuditEventDto;
-import com.policytracker.audit.api.CreateAuditEventRequest;
+import com.policytracker.audit.api.dto.AuditEventDto;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,10 +1,10 @@
 package com.policytracker.audit.core;
 
-import com.policytracker.audit.api.AuditEventDto;
 import com.policytracker.audit.api.AuditService;
-import com.policytracker.audit.api.CreateAuditEventRequest;
+import com.policytracker.audit.api.dto.AuditEventDto;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
 import com.policytracker.common.architecture.DomainCore;
-import com.policytracker.events.api.AuditEventCreatedEvent;
+import com.policytracker.events.api.dto.AuditEventCreatedEvent;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

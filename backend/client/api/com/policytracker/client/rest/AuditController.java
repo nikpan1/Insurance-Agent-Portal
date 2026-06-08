@@ -1,8 +1,8 @@
 package com.policytracker.client.rest;
 
-import com.policytracker.audit.api.AuditEventDto;
 import com.policytracker.audit.api.AuditService;
-import com.policytracker.audit.api.CreateAuditEventRequest;
+import com.policytracker.audit.api.dto.AuditEventDto;
+import com.policytracker.audit.api.dto.CreateAuditEventRequest;
 import com.policytracker.client.dto.AuditEventResponseDto;
 import com.policytracker.client.dto.CreateAuditEventRequestDto;
 import jakarta.validation.Valid;

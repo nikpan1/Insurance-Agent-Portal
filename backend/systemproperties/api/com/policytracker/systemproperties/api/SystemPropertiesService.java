@@ -1,6 +1,7 @@
 package com.policytracker.systemproperties.api;
 
 import com.policytracker.common.architecture.DomainApi;
+import com.policytracker.systemproperties.api.dto.SystemPropertyDto;
 import java.util.Optional;
 
 public interface SystemPropertiesService extends DomainApi {

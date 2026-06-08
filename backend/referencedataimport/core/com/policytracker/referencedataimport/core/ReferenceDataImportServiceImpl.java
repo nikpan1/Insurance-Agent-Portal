@@ -1,10 +1,10 @@
 package com.policytracker.referencedataimport.core;
 
 import com.policytracker.common.architecture.DomainCore;
-import com.policytracker.events.api.ReferenceDataImportedEvent;
-import com.policytracker.referencedataimport.api.ReferenceDataImportResult;
+import com.policytracker.events.api.dto.ReferenceDataImportedEvent;
 import com.policytracker.referencedataimport.api.ReferenceDataImportService;
-import com.policytracker.referencedataimport.api.ReferenceDataNode;
+import com.policytracker.referencedataimport.api.dto.ReferenceDataImportResult;
+import com.policytracker.referencedataimport.api.dto.ReferenceDataNode;
 import com.policytracker.requestcontext.CurrentUserContext;
 import java.time.Instant;
 import java.util.ArrayList;

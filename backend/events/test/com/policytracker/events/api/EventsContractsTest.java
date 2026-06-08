@@ -1,5 +1,9 @@
 package com.policytracker.events.api;
 
+import com.policytracker.events.api.dto.AuditEventCreatedEvent;
+import com.policytracker.events.api.dto.InsuranceStatusUpdatedEvent;
+import com.policytracker.events.api.dto.InsuranceUserDataRequestedEvent;
+import com.policytracker.events.api.dto.ReferenceDataImportedEvent;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;

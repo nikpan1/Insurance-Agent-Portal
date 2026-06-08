@@ -1,4 +1,4 @@
-package com.policytracker.systemproperties.api;
+package com.policytracker.systemproperties.api.dto;
 
 import lombok.Builder;
 import lombok.Value;
