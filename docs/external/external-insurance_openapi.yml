@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: External Insurance Provider API
+  version: 1.0.0
+  description: API exposed by external insurance provider for user data retrieval and policy status updates.
+
+servers:
+  - url: https://api.external-insurance.com/v1
+
+paths:
+  /insurance/user-data:
+    post:
+      operationId: getInsuranceUserData
+      summary: Get insurance user data
+      description: Retrieves user insurance-related data from external provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsuranceUserDataRequest'
+      responses:
+        '200':
+          description: User insurance data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsuranceUserDataResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: External provider error
+
+  /insurance/status:
+    put:
+      operationId: updateInsuranceStatus
+      summary: Update insurance status
+      description: Updates insurance policy status in external system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInsuranceStatusRequest'
+      responses:
+        '200':
+          description: Status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInsuranceStatusResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: External provider error
+
+components:
+  schemas:
+
+    InsuranceUserDataRequest:
+      type: object
+      required:
+        - externalUserId
+      properties:
+        externalUserId:
+          type: string
+          example: EXT-USER-12345
+        correlationId:
+          type: string
+          description: Optional tracing identifier
+          example: c9b1f1c2-9f7a-4d2c-a111-123456789abc
+
+    InsuranceUserDataResponse:
+      type: object
+      properties:
+        externalUserId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        activePolicies:
+          type: array
+          items:
+            type: object
+            properties:
+              policyId:
+                type: string
+              type:
+                type: string
+              status:
+                type: string
+        riskScore:
+          type: number
+          format: float
+
+    UpdateInsuranceStatusRequest:
+      type: object
+      required:
+        - policyId
+        - status
+      properties:
+        policyId:
+          type: string
+          example: POL-10001
+        status:
+          type: string
+          enum: [ACTIVE, SUSPENDED, CANCELLED, EXPIRED]
+        reason:
+          type: string
+          example: Payment received
+        effectiveDate:
+          type: string
+          format: date
+
+    UpdateInsuranceStatusResponse:
+      type: object
+      properties:
+        policyId:
+          type: string
+        status:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
