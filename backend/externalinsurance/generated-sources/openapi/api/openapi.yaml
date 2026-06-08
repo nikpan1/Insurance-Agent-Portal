@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  description: API exposed by external insurance provider for user data retrieval
+    and policy status updates.
+  title: External Insurance Provider API
+  version: 1.0.0
+servers:
+- url: https://api.external-insurance.com/v1
+paths:
+  /insurance/user-data:
+    post:
+      description: Retrieves user insurance-related data from external provider.
+      operationId: getInsuranceUserData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsuranceUserDataRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsuranceUserDataResponse'
+          description: User insurance data retrieved successfully
+        "400":
+          description: Invalid request
+        "500":
+          description: External provider error
+      summary: Get insurance user data
+      x-content-type: application/json
+      x-accepts: application/json
+  /insurance/status:
+    put:
+      description: Updates insurance policy status in external system.
+      operationId: updateInsuranceStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInsuranceStatusRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateInsuranceStatusResponse'
+          description: Status updated successfully
+        "400":
+          description: Invalid request
+        "500":
+          description: External provider error
+      summary: Update insurance status
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    InsuranceUserDataRequest:
+      example:
+        externalUserId: EXT-USER-12345
+        correlationId: c9b1f1c2-9f7a-4d2c-a111-123456789abc
+      properties:
+        externalUserId:
+          example: EXT-USER-12345
+          type: string
+        correlationId:
+          description: Optional tracing identifier
+          example: c9b1f1c2-9f7a-4d2c-a111-123456789abc
+          type: string
+      required:
+      - externalUserId
+      type: object
+    InsuranceUserDataResponse:
+      example:
+        firstName: firstName
+        lastName: lastName
+        externalUserId: externalUserId
+        activePolicies:
+        - policyId: policyId
+          type: type
+          status: status
+        - policyId: policyId
+          type: type
+          status: status
+        riskScore: 0.8008282
+      properties:
+        externalUserId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        activePolicies:
+          items:
+            $ref: '#/components/schemas/InsuranceUserDataResponse_activePolicies_inner'
+          type: array
+        riskScore:
+          format: float
+          type: number
+      type: object
+    UpdateInsuranceStatusRequest:
+      example:
+        reason: Payment received
+        policyId: POL-10001
+        effectiveDate: 2000-01-23
+        status: ACTIVE
+      properties:
+        policyId:
+          example: POL-10001
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - SUSPENDED
+          - CANCELLED
+          - EXPIRED
+          type: string
+        reason:
+          example: Payment received
+          type: string
+        effectiveDate:
+          format: date
+          type: string
+      required:
+      - policyId
+      - status
+      type: object
+    UpdateInsuranceStatusResponse:
+      example:
+        policyId: policyId
+        status: status
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        policyId:
+          type: string
+        status:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    InsuranceUserDataResponse_activePolicies_inner:
+      example:
+        policyId: policyId
+        type: type
+        status: status
+      properties:
+        policyId:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+      type: object
+
