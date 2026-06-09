@@ -30,6 +30,6 @@ public class Client {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(name = "national_id", nullable = false, unique = true, length = 11)
     private String pesel;
 }
