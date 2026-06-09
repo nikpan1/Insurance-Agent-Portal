@@ -5,6 +5,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRONTEND_DIR="$ROOT_DIR/frontend"
 BACKEND_DIR="$ROOT_DIR/backend"
+EXTERNAL_SERVICE_DIR="$ROOT_DIR/tools/externalService"
 
 echo "Starting infrastructure (PostgreSQL, MongoDB)..."
 if command -v docker-compose >/dev/null 2>&1; then
@@ -37,8 +38,8 @@ npm run build
 popd >/dev/null
 
 cleanup() {
-  echo "Stopping frontend and backend..."
-  kill "$BACKEND_PID" "$FRONTEND_PID" 2>/dev/null || true
+  echo "Stopping external service, frontend and backend..."
+  kill "$BACKEND_PID" "$FRONTEND_PID" "$EXTERNAL_SERVICE_PID" 2>/dev/null || true
 }
 
 trap cleanup EXIT INT TERM
@@ -49,6 +50,12 @@ java -jar "$BACKEND_JAR" &
 BACKEND_PID=$!
 popd >/dev/null
 
+echo "Starting external insurance mock service..."
+pushd "$ROOT_DIR" >/dev/null
+mvn -f "$EXTERNAL_SERVICE_DIR/pom.xml" exec:java &
+EXTERNAL_SERVICE_PID=$!
+popd >/dev/null
+
 echo "Starting frontend..."
 pushd "$FRONTEND_DIR" >/dev/null
 npm run start -- --host 0.0.0.0 &
@@ -56,7 +63,8 @@ FRONTEND_PID=$!
 popd >/dev/null
 
 echo "Backend PID: $BACKEND_PID"
+echo "External service PID: $EXTERNAL_SERVICE_PID"
 echo "Frontend PID: $FRONTEND_PID"
 echo "Application is running. Press Ctrl+C to stop both processes."
 
-wait "$BACKEND_PID" "$FRONTEND_PID"
+wait "$BACKEND_PID" "$FRONTEND_PID" "$EXTERNAL_SERVICE_PID"
