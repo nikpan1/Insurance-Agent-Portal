@@ -8,7 +8,7 @@ import { ClientRequestDto } from './client-request.dto';
   providedIn: 'root'
 })
 export class ClientService {
-  private readonly clientsApiUrl = '/api/clients';
+  private readonly clientsApiUrl = '/api/v1/clients';
 
   constructor(private readonly http: HttpClient) {}
 

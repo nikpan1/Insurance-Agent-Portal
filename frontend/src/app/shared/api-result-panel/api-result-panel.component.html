@@ -1,0 +1,17 @@
+@if (hasContent()) {
+  <section class="api-result-panel card border-0 shadow-sm">
+    <div class="card-body p-3">
+      <h3 class="h6 mb-3">{{ title() }}</h3>
+
+      @if (successMessage(); as message) {
+        <div class="alert alert-success" role="status">{{ message }}</div>
+      }
+
+      @if (payload() !== null) {
+        <pre class="api-payload mb-3">{{ payload() | json }}</pre>
+      }
+
+      <app-problem-detail-alert [problem]="problem()" />
+    </div>
+  </section>
+}

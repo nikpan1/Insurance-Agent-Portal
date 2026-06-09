@@ -1,0 +1,70 @@
+<section class="card border-0 shadow-sm h-100">
+  <div class="card-body p-3 p-md-4 d-flex flex-column gap-4">
+    <div>
+      <h2 class="h5 mb-1">Flow 2: External Insurance</h2>
+      <p class="text-body-secondary mb-0">Fetch external policies and update status for user {{ userId() }} context.</p>
+    </div>
+
+    <form [formGroup]="fetchForm" class="row g-3" novalidate>
+      <div class="col-12 col-md-6">
+        <label for="externalUserId" class="form-label">External User ID</label>
+        <input id="externalUserId" type="text" class="form-control" formControlName="externalUserId" />
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="correlationId" class="form-label">Correlation ID</label>
+        <input id="correlationId" type="text" class="form-control" formControlName="correlationId" />
+      </div>
+      <div class="col-12 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" [disabled]="isFetching" (click)="fetchUserData()">
+          Fetch User Data
+        </button>
+      </div>
+    </form>
+
+    <app-api-result-panel title="External user data" [successMessage]="fetchSuccess" [payload]="userData" [problem]="fetchProblem" />
+
+    @if (userData && userData.activePolicies.length > 0) {
+      <div class="border-top pt-3">
+        <div class="mb-3">
+          <label for="policyPicker" class="form-label">Policy</label>
+          <select id="policyPicker" class="form-select" [formControl]="selectedPolicyIdControl">
+            @for (policy of userData.activePolicies; track policy.policyId) {
+              <option [value]="policy.policyId">{{ policy.policyId }} - {{ policy.type }} ({{ policy.status }})</option>
+            }
+          </select>
+        </div>
+
+        <form [formGroup]="statusUpdateForm" class="row g-3" novalidate>
+          <div class="col-12 col-md-4">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-select" formControlName="status">
+              @for (status of statuses; track status) {
+                <option [value]="status">{{ status }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="effectiveDate" class="form-label">Effective Date</label>
+            <input id="effectiveDate" type="date" class="form-control" formControlName="effectiveDate" />
+          </div>
+          <div class="col-12 col-md-4">
+            <label for="reason" class="form-label">Reason</label>
+            <input id="reason" type="text" class="form-control" formControlName="reason" />
+          </div>
+          <div class="col-12 d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-primary" [disabled]="isUpdatingStatus" (click)="updatePolicyStatus()">
+              Update Policy Status
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+
+    <app-api-result-panel
+      title="Policy status update"
+      [successMessage]="statusSuccess"
+      [payload]="statusResult"
+      [problem]="statusProblem"
+    />
+  </div>
+</section>

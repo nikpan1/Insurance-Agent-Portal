@@ -1,19 +1,14 @@
 import { Routes } from '@angular/router';
 
-import { ClientRegistrationComponent } from './client-registration/client-registration.component';
+import { WorkbenchPageComponent } from './features/workbench-page/workbench-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'register'
-  },
-  {
-    path: 'register',
-    component: ClientRegistrationComponent
+    component: WorkbenchPageComponent
   },
   {
     path: '**',
-    redirectTo: 'register'
+    redirectTo: ''
   }
 ];

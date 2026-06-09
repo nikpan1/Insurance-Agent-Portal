@@ -1,0 +1,117 @@
+<section class="card border-0 shadow-sm h-100">
+  <div class="card-body p-3 p-md-4 d-flex flex-column gap-4">
+    <div>
+      <h2 class="h5 mb-1">Flow 1: Context + Client</h2>
+      <p class="text-body-secondary mb-0">Register a client and inspect audit trail for user {{ userId() }}.</p>
+    </div>
+
+    <form [formGroup]="clientForm" class="row g-3" novalidate>
+      <div class="col-12 col-md-6">
+        <label for="clientFirstName" class="form-label">First name</label>
+        <input id="clientFirstName" type="text" class="form-control" formControlName="firstName" />
+        @if (clientForm.controls.firstName.invalid && (clientForm.controls.firstName.dirty || clientForm.controls.firstName.touched)) {
+          <div class="invalid-feedback d-block">First name is required.</div>
+        }
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="clientLastName" class="form-label">Last name</label>
+        <input id="clientLastName" type="text" class="form-control" formControlName="lastName" />
+        @if (clientForm.controls.lastName.invalid && (clientForm.controls.lastName.dirty || clientForm.controls.lastName.touched)) {
+          <div class="invalid-feedback d-block">Last name is required.</div>
+        }
+      </div>
+      <div class="col-12">
+        <label for="clientEmail" class="form-label">Email</label>
+        <input id="clientEmail" type="email" class="form-control" formControlName="email" />
+        @if (clientForm.controls.email.hasError('required') && (clientForm.controls.email.dirty || clientForm.controls.email.touched)) {
+          <div class="invalid-feedback d-block">Email is required.</div>
+        }
+        @if (clientForm.controls.email.hasError('email') && (clientForm.controls.email.dirty || clientForm.controls.email.touched)) {
+          <div class="invalid-feedback d-block">Enter a valid email address.</div>
+        }
+      </div>
+      <div class="col-12">
+        <label for="clientPesel" class="form-label">PESEL</label>
+        <input id="clientPesel" type="text" class="form-control" formControlName="pesel" maxlength="11" inputmode="numeric" />
+        @if (clientForm.controls.pesel.hasError('required') && (clientForm.controls.pesel.dirty || clientForm.controls.pesel.touched)) {
+          <div class="invalid-feedback d-block">PESEL is required.</div>
+        }
+        @if (clientForm.controls.pesel.hasError('pattern') && (clientForm.controls.pesel.dirty || clientForm.controls.pesel.touched)) {
+          <div class="invalid-feedback d-block">PESEL must contain exactly 11 digits.</div>
+        }
+      </div>
+      <div class="col-12 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" [disabled]="isSubmittingClient" (click)="registerClient()">
+          Register Client
+        </button>
+      </div>
+    </form>
+
+    <app-api-result-panel
+      title="Client registration result"
+      [successMessage]="registrationSuccess"
+      [payload]="registrationResult"
+      [problem]="registrationProblem"
+    />
+
+    <div class="border-top pt-3">
+      <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+        <h3 class="h6 mb-0">Audit events</h3>
+        <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="isLoadingAudit" (click)="loadAuditEvents()">
+          Load events for user {{ userId() }}
+        </button>
+      </div>
+
+      <form [formGroup]="auditEventForm" class="row g-3 mb-3" novalidate>
+        <div class="col-12 col-md-4">
+          <label for="eventType" class="form-label">Event type</label>
+          <input id="eventType" type="text" class="form-control" formControlName="eventType" />
+        </div>
+        <div class="col-12 col-md-8">
+          <label for="metadataJson" class="form-label">Metadata JSON</label>
+          <input id="metadataJson" type="text" class="form-control" formControlName="metadataJson" />
+        </div>
+        <div class="col-12 d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-primary btn-sm" [disabled]="isCreatingAudit" (click)="createManualAuditEvent()">
+            Add manual event
+          </button>
+        </div>
+      </form>
+
+      <app-api-result-panel
+        title="Manual audit event"
+        [successMessage]="manualAuditSuccess"
+        [problem]="manualAuditProblem"
+      />
+
+      <app-api-result-panel
+        title="Audit load status"
+        [successMessage]="auditSuccess"
+        [problem]="auditProblem"
+      />
+
+      @if (auditEvents.length > 0) {
+        <div class="table-responsive mt-3">
+          <table class="table table-sm align-middle mb-0">
+            <thead>
+              <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Type</th>
+                <th scope="col">Metadata</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (event of auditEvents; track event.id) {
+                <tr>
+                  <td>{{ event.timestamp }}</td>
+                  <td>{{ event.eventType }}</td>
+                  <td class="small">{{ event.metadata ? (event.metadata | json) : '-' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

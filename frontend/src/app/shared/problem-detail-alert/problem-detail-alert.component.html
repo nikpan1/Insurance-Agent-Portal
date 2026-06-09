@@ -1,0 +1,11 @@
+@if (problem(); as problemDetail) {
+  <div class="alert alert-danger mb-0" role="alert">
+    <div class="fw-semibold">{{ problemDetail.title || 'Request failed' }}</div>
+    @if (problemDetail.status) {
+      <div class="small text-body-secondary">HTTP {{ problemDetail.status }}</div>
+    }
+    @if (problemDetail.detail) {
+      <div class="mt-2">{{ problemDetail.detail }}</div>
+    }
+  </div>
+}

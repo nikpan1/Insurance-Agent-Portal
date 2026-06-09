@@ -1,0 +1,92 @@
+<section class="card border-0 shadow-sm">
+  <div class="card-body p-3 p-md-4 d-flex flex-column gap-4">
+    <div>
+      <h2 class="h5 mb-1">Flow 3: System + Reference Data</h2>
+      <p class="text-body-secondary mb-0">Manage system property values and refresh reference-data tree.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-6">
+        <h3 class="h6 mb-3">System Property</h3>
+        <form [formGroup]="propertyForm" class="row g-3" novalidate>
+          <div class="col-12 col-md-4">
+            <label for="propertyCustomerId" class="form-label">Customer ID</label>
+            <input id="propertyCustomerId" type="number" class="form-control" formControlName="customerId" />
+          </div>
+          <div class="col-12 col-md-8">
+            <label for="propertyKey" class="form-label">Property Key</label>
+            <input id="propertyKey" type="text" class="form-control" formControlName="propertyKey" />
+          </div>
+          <div class="col-12">
+            <label for="propertyValue" class="form-label">Property Value</label>
+            <input id="propertyValue" type="text" class="form-control" formControlName="propertyValue" />
+          </div>
+          <div class="col-12 d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" [disabled]="isLoadingProperty" (click)="loadProperty()">
+              Read Property
+            </button>
+            <button type="button" class="btn btn-primary" [disabled]="isSavingProperty" (click)="upsertProperty()">
+              Upsert Property
+            </button>
+          </div>
+        </form>
+
+        <app-api-result-panel
+          title="Property result"
+          [successMessage]="propertySuccess"
+          [payload]="propertyResult"
+          [problem]="propertyProblem"
+        />
+      </div>
+
+      <div class="col-12 col-xl-6">
+        <h3 class="h6 mb-3">Reference Data</h3>
+        <form [formGroup]="importForm" class="row g-3" novalidate>
+          <div class="col-12">
+            <label for="sourcePath" class="form-label">Import Source Path</label>
+            <input id="sourcePath" type="text" class="form-control" formControlName="sourcePath" />
+          </div>
+          <div class="col-12 d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" [disabled]="isLoadingTree" (click)="loadTree()">
+              Load Tree
+            </button>
+            <button type="button" class="btn btn-primary" [disabled]="isImporting" (click)="importReferenceData()">
+              Import Data
+            </button>
+          </div>
+        </form>
+
+        <app-api-result-panel
+          title="Import result"
+          [successMessage]="importSuccess"
+          [payload]="importResult"
+          [problem]="importProblem"
+        />
+
+        <app-api-result-panel title="Tree load status" [successMessage]="treeSuccess" [problem]="treeProblem" />
+
+        @if (treeNodes.length > 0) {
+          <ul class="reference-tree mt-3 ps-3">
+            @for (root of treeNodes; track root.id) {
+              <ng-container [ngTemplateOutlet]="nodeTemplate" [ngTemplateOutletContext]="{ $implicit: root }" />
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </div>
+
+  <ng-template #nodeTemplate let-node>
+    <li>
+      <span class="fw-medium">{{ node.name }}</span>
+      <span class="text-body-secondary small">({{ node.id }})</span>
+      @if (node.children.length > 0) {
+        <ul class="ps-3">
+          @for (child of node.children; track child.id) {
+            <ng-container [ngTemplateOutlet]="nodeTemplate" [ngTemplateOutletContext]="{ $implicit: child }" />
+          }
+        </ul>
+      }
+    </li>
+  </ng-template>
+</section>
