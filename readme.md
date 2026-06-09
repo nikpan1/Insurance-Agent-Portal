@@ -1,6 +1,6 @@
 # Insurance Industry POC (Mock Project)
 
-This is a mock project that resembles a few general concepts used in insurance industry systems.
+This is a POC project that resembles a few general concepts used in insurance industry systems.
 
 It is intended for learning, demos, and experimentation only.
 
@@ -17,14 +17,38 @@ It is intended for learning, demos, and experimentation only.
 
 ```mermaid
 flowchart LR
-    UI[Frontend\nAngular App]
-    API[REST API\nSpring Boot]
-    PG[(PostgreSQL)]
-    MG[(MongoDB)]
+    Browser[Angular frontend]
 
-    UI -->|HTTP requests| API
-    API -->|JPA / SQL| PG
-    API -->|Mongo driver| MG
+    subgraph BE[Backend Runtime]
+        API[Java Backend]
+        E1[POST /api/v1/clients]
+        E2[GET /api/v1/external-insurance/users/externalUserId]
+        E3[PUT /api/v1/external-insurance/policies/policyId/status]
+        E4[GET /api/v1/system-properties/customerId/propertyKey]
+        E5[PUT /api/v1/system-properties/customerId/propertyKey]
+    end
+
+    subgraph Infra[Local Infrastructure via Docker Compose]
+        PG[(PostgreSQL\npolicytracker)]
+        MG[(MongoDB\npolicytracker)]
+    end
+
+    Mock[External Service]
+
+    Browser -->|HTTP /api/v1/*| API
+    API --> E1
+    API --> E2
+    API --> E3
+    API --> E4
+    API --> E5
+
+    E1 -->|register client| PG
+    E2 -->|fetch insurance user data| Mock
+    E3 -->|update policy status| Mock
+    E4 -->|read customer property| PG
+    E5 -->|upsert customer property| PG
+
+    API -->|audit events| MG
 ```
 
 ## Backend tree
